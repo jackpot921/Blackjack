@@ -25,16 +25,4 @@ namespace BlackJack
         King,
         Ace
     }
-    public enum Value
-    {
-        Jack = 2,
-        Queen = 3,
-        King = 4,
-        Six = 6,
-        Seven = 7,
-        Eight = 8,
-        Nine = 9,
-        Ten = 10,
-        Ace = 11
-    }
 }
