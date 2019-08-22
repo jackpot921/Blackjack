@@ -332,8 +332,8 @@ namespace BlackJack
                 Console.WriteLine("Choose who receive cards first: ");
                 Console.WriteLine("1. Computer");
                 Console.WriteLine("2. User");
-                char decision = Convert.ToChar(Console.ReadLine());
-                if (decision == '1')
+                string decision = Console.ReadLine();
+                if (decision == "1")
                 {
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
@@ -355,7 +355,7 @@ namespace BlackJack
                     }
                     GameResults(userWinCounter, dealerWinCounter, out game);
                     continue;
-                }else if (decision == '2')
+                }else if (decision == "2")
                 {
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
