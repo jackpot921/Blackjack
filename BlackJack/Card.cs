@@ -11,8 +11,6 @@ namespace BlackJack
         public Suit Suit;
 
         public Face Face;
-
-        public int Value;
     }
 
 }
