@@ -8,51 +8,21 @@ namespace BlackJack
 {
     public struct Deck
     {
-        public static int DeckValueCalculating(Card[] cards, int counter)
+        public static int DeckValueCalculating(Card[] cards)
         {
             int deckValue = 0;
-            for (int i = 0; i < counter; i++)
+            foreach (var card in cards)
             {
-                int cardValue = 0;
-                switch (cards[i].Face)
-                {
-                    case Face.Six:
-                        cardValue = 6;
-                        break;
-                    case Face.Seven:
-                        cardValue = 7;
-                        break;
-                    case Face.Eight:
-                        cardValue = 8;
-                        break;
-                    case Face.Nine:
-                        cardValue = 9;
-                        break;
-                    case Face.Ten:
-                        cardValue = 10;
-                        break;
-                    case Face.Jack:
-                        cardValue = 2;
-                        break;
-                    case Face.Queen:
-                        cardValue = 3;
-                        break;
-                    case Face.King:
-                        cardValue = 4;
-                        break;
-                    case Face.Ace:
-                        cardValue = 11;
-                        break;
-                }
-                deckValue += cardValue;
+                deckValue += card.Value;
             }
             return deckValue;
         }
 
-        public static Card DrawACard(Card[] cards, ref int count)
+        public static Card DrawACard(Card[] cards, int count, out int counter)
         {
-            count--;
-            return cards[count];
+            counter = count;
+            counter--;
+            return cards[counter];
         }
 
         public static Card[] Initialize(Card[] cards)
@@ -63,48 +33,33 @@ namespace BlackJack
                 for (int j = 0; j < 9; j++)
                 {
                     cards[index] = (new Card() { Suit = (Suit)i, Face = (Face)j });
-                    index++;
+                    if(j <= 4)
+                    {
+                        cards[index].Value = j + 6;
+                        index++;
+                    }else if(j >= 5 && j <= 7)
+                    {
+                        cards[index].Value = j - 3;
+                        index++;
+                    }
+                    else
+                    {
+                        cards[index].Value = 11;
+                        index++;
+                    }
                 }
             }
             return cards;
         }
 
-        public static void PrintDeck(Card[] cards, int counter)
+        public static void PrintDeck(Card[] cards)
         {
-            for (int i = 0; i < counter; i++)
+            foreach (var item in cards)
             {
-                int cardValue = 0;
-                switch (cards[i].Face)
+                if(item.Value > 0)
                 {
-                    case Face.Six:
-                        cardValue = 6;
-                        break;
-                    case Face.Seven:
-                        cardValue = 7;
-                        break;
-                    case Face.Eight:
-                        cardValue = 8;
-                        break;
-                    case Face.Nine:
-                        cardValue = 9;
-                        break;
-                    case Face.Ten:
-                        cardValue = 10;
-                        break;
-                    case Face.Jack:
-                        cardValue = 2;
-                        break;
-                    case Face.Queen:
-                        cardValue = 3;
-                        break;
-                    case Face.King:
-                        cardValue = 4;
-                        break;
-                    case Face.Ace:
-                        cardValue = 11;
-                        break;
+                    Console.WriteLine($"{item.Face} of {item.Suit} ({item.Value} points.)");
                 }
-                Console.WriteLine($"Card{i + 1}: {cards[i].Face} of {cards[i].Suit} ({cardValue} points.)");
             }
         }
 

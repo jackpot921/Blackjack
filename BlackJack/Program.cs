@@ -8,12 +8,14 @@ namespace BlackJack
 {
     class Program
     {
-        public static void CalculatingPoints(Card[] dealerHand, Card[] userHand, ref int userWinCounter, ref int dealerWinCounter, int dealerCounter, int userCounter)
+        public static void CalculatingPoints(Card[] dealerHand, Card[] userHand, int userWinCounter, int dealerWinCounter, out int userWinCount, out int dealerWinCount)
         {
+            userWinCount = userWinCounter;
+            dealerWinCount = dealerWinCounter;
             Console.Clear();
             Console.WriteLine("Calculating results.");
-            int dealerPoints = Deck.DeckValueCalculating(dealerHand, dealerCounter);
-            int userPoints = Deck.DeckValueCalculating(userHand, userCounter);
+            int dealerPoints = Deck.DeckValueCalculating(dealerHand);
+            int userPoints = Deck.DeckValueCalculating(userHand);
             Console.WriteLine($"Dealer has {dealerPoints} points.");
             Console.WriteLine($"You have {userPoints} points.");
             if (dealerPoints == userPoints)
@@ -28,8 +30,8 @@ namespace BlackJack
                     Console.WriteLine("Dealer wins with BlackJack!");
                     Console.WriteLine();
                     Console.WriteLine("Winner hand:");
-                    Deck.PrintDeck(dealerHand, dealerCounter);
-                    dealerWinCounter++;
+                    Deck.PrintDeck(dealerHand);
+                    dealerWinCount++;
                 }
                 else
                 {
@@ -37,8 +39,8 @@ namespace BlackJack
                     Console.WriteLine($"Dealer wins with {dealerPoints} points.");
                     Console.WriteLine();
                     Console.WriteLine("Winner hand:");
-                    Deck.PrintDeck(dealerHand, dealerCounter);
-                    dealerWinCounter++;
+                    Deck.PrintDeck(dealerHand);
+                    dealerWinCount++;
                 }
 
             }
@@ -52,8 +54,8 @@ namespace BlackJack
                     Console.ResetColor();
                     Console.WriteLine();
                     Console.WriteLine("Winner hand:");
-                    Deck.PrintDeck(userHand, userCounter);
-                    userWinCounter++;
+                    Deck.PrintDeck(userHand);
+                    userWinCount++;
                 }
                 else
                 {
@@ -63,21 +65,23 @@ namespace BlackJack
                     Console.ResetColor();
                     Console.WriteLine();
                     Console.WriteLine("Winner hand:");
-                    Deck.PrintDeck(userHand, userCounter);
-                    userWinCounter++;
+                    Deck.PrintDeck(userHand);
+                    userWinCount++;
                 }
             }
         }
-        public static bool CheckAces(Card[] dealerHand, Card[] userHand, ref int userWinCounter, ref int dealerWinCounter, int dealerCounter, int userCounter)
+        public static bool CheckAces(Card[] dealerHand, Card[] userHand, int userWinCounter, int dealerWinCounter, out int userWinCount, out int dealerWinCount)
         {
+            userWinCount = userWinCounter;
+            dealerWinCount = dealerWinCounter;
             bool aces = false;
             if ((dealerHand[0].Face == Face.Ace && dealerHand[1].Face == Face.Ace))
             {
                 Console.WriteLine("Dealer wins with two Aces.");
                 Console.WriteLine();
                 Console.WriteLine("Winner hand:");
-                Deck.PrintDeck(dealerHand, dealerCounter);
-                dealerWinCounter++;
+                Deck.PrintDeck(dealerHand);
+                dealerWinCount++;
                 aces = true;
             }
             else if ((userHand[0].Face == Face.Ace && userHand[1].Face == Face.Ace))
@@ -87,46 +91,51 @@ namespace BlackJack
                 Console.ResetColor();
                 Console.WriteLine();
                 Console.WriteLine("Winner hand:");
-                Deck.PrintDeck(userHand, userCounter);
-                userWinCounter++;
+                Deck.PrintDeck(userHand);
+                userWinCount++;
                 aces = true;
             }
             return aces;
         }
-        public static Card[] DealHandToDealer(Card[] playingDeck, ref int count, ref int dealerCounter)
+        public static Card[] DealHandToDealer(Card[] playingDeck, int count, int dealerCounter, out int counter, out int dealerCount)
         {
             Card[] dealerHand;
+            dealerCount = dealerCounter;
             dealerHand = new Card[36];
-            dealerHand[dealerCounter] = Deck.DrawACard(playingDeck, ref count);
-            dealerCounter++;
-            dealerHand[dealerCounter] = Deck.DrawACard(playingDeck, ref count);
-            dealerCounter++;
+            dealerHand[dealerCount] = Deck.DrawACard(playingDeck, count, out count);
+            dealerCount++;
+            dealerHand[dealerCount] = Deck.DrawACard(playingDeck, count, out counter);
+            dealerCount++;
             return dealerHand;
         }
-        public static Card[] DealHandToUser(Card[] playingDeck, ref int count, ref int userCounter)
+        public static Card[] DealHandToUser(Card[] playingDeck, int count, int userCounter, out int counter, out int userCount)
         {
             Card[] userHand;
+            userCount = userCounter;
             userHand = new Card[36];
-            userHand[userCounter] = Deck.DrawACard(playingDeck, ref count);
-            userCounter++;
-            userHand[userCounter] = Deck.DrawACard(playingDeck, ref count);
-            userCounter++;
+            userHand[userCount] = Deck.DrawACard(playingDeck, count, out count);
+            userCount++;
+            userHand[userCount] = Deck.DrawACard(playingDeck, count, out counter);
+            userCount++;
             return userHand;
         }
-        public static Card[] OneMoreCardToDealer(Card[] playingDeck, Card[] dealerDeck, ref int count, ref int dealerCounter)
+        public static Card[] OneMoreCardToDealer(Card[] playingDeck, Card[] dealerDeck, int count, int dealerCounter, out int counter, out int dealerCount)
         {
-            dealerDeck[dealerCounter] = Deck.DrawACard(playingDeck, ref count);
-            dealerCounter++;
+            dealerCount = dealerCounter;
+            dealerDeck[dealerCount] = Deck.DrawACard(playingDeck, count, out counter);
+            dealerCount++;
             return dealerDeck;
         }
-        public static Card[] OneMoreCardToUser(Card[] playingDeck, Card[] userDeck, ref int count, ref int userCounter)
+        public static Card[] OneMoreCardToUser(Card[] playingDeck, Card[] userDeck, int count, int userCounter, out int counter, out int userCount)
         {
-            userDeck[userCounter] = Deck.DrawACard(playingDeck, ref count);
-            userCounter++;
+            userCount = userCounter;
+            userDeck[userCount] = Deck.DrawACard(playingDeck, count, out counter);
+            userCount++;
             return userDeck;
         }
-        public static void ChooseAnOptionIfDealerFirst(Card[] playingDeck, ref Card[] dealerHand, ref Card[] userHand, ref int count, ref int dealerCounter, ref int userCounter)
+        public static void ChooseAnOptionIfDealerFirst(Card[] playingDeck, Card[] dealerHand, Card[] userHand, int count, int dealerCounter, int userCounter)
         {
+            
             bool play = true;
             do
             {
@@ -139,29 +148,29 @@ namespace BlackJack
                     {
                         case '1':
                             Console.Clear();
-                            if (Deck.DeckValueCalculating(dealerHand, dealerCounter) <= 17)
+                            if (Deck.DeckValueCalculating(dealerHand) <= 17)
                             {
                                 Console.WriteLine("Dealer takes one more card.");
-                                dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, ref count, ref dealerCounter);
+                                dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, count, dealerCounter, out count, out dealerCounter);
                             }
                             else
                             {
                                 Console.WriteLine("Dealer decides to stay.");
-                                if (Deck.DeckValueCalculating(userHand, userCounter) > 21)
+                                if (Deck.DeckValueCalculating(userHand) > 21)
                                 {
                                     play = false;
                                     continue;
                                 }
                             }
                             Console.WriteLine("You take one more card.");
-                            userHand = OneMoreCardToUser(playingDeck, userHand, ref count, ref userCounter);
-                            if (Deck.DeckValueCalculating(userHand, userCounter) <= 21)
+                            userHand = OneMoreCardToUser(playingDeck, userHand, count, userCounter, out count, out userCounter);
+                            if (Deck.DeckValueCalculating(userHand) <= 21)
                             {
                                 Console.WriteLine($"Dealer have {dealerCounter} cards.");
                                 Console.WriteLine();
                                 Console.WriteLine("You have next cards:");
-                                Deck.PrintDeck(userHand,userCounter);
-                                Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand, userCounter)}");
+                                Deck.PrintDeck(userHand);
+                                Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
                                 Console.WriteLine();
                                 Console.WriteLine("Press any key to continue...");
                                 Console.ReadKey();
@@ -175,11 +184,11 @@ namespace BlackJack
                             do
                             {
                                 Console.Clear();
-                                if (Deck.DeckValueCalculating(dealerHand, dealerCounter) <= 17)
+                                if (Deck.DeckValueCalculating(dealerHand) <= 17)
                                 {
                                     Console.WriteLine("Dealer takes one more card.");
-                                    dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, ref count, ref dealerCounter);
-                                    if (Deck.DeckValueCalculating(dealerHand, dealerCounter) > 21)
+                                    dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, count, dealerCounter, out count, out dealerCounter);
+                                    if (Deck.DeckValueCalculating(dealerHand) > 21)
                                     {
                                         play = false;
                                         break;
@@ -195,8 +204,8 @@ namespace BlackJack
                             Console.WriteLine($"Dealer have {dealerCounter} cards.");
                             Console.WriteLine();
                             Console.WriteLine("You have next cards:");
-                            Deck.PrintDeck(userHand, userCounter);
-                            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand, userCounter)}");
+                            Deck.PrintDeck(userHand);
+                            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
                             Console.WriteLine();
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
@@ -209,7 +218,7 @@ namespace BlackJack
             }
             while (play);
         }
-        public static void ChooseAnOptionIfUserFirst(Card[] playingDeck, ref Card[] dealerHand, ref Card[] userHand, ref int count, ref int userCounter, ref int dealerCounter)
+        public static void ChooseAnOptionIfUserFirst(Card[] playingDeck, Card[] dealerHand, Card[] userHand, int count, int userCounter, int dealerCounter)
         {
             bool play = true;
             do
@@ -224,12 +233,12 @@ namespace BlackJack
                         case '1':
                             Console.Clear();
                             Console.WriteLine("You take one more card.");
-                            userHand = OneMoreCardToUser(playingDeck, userHand, ref count, ref userCounter);
-                            if (Deck.DeckValueCalculating(dealerHand, dealerCounter) <= 16)
+                            userHand = OneMoreCardToUser(playingDeck, userHand, count, userCounter, out count, out userCounter);
+                            if (Deck.DeckValueCalculating(dealerHand) <= 16)
                             {
                                 Console.WriteLine("Dealer takes one more card.");
-                                dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, ref count, ref dealerCounter);
-                                if (Deck.DeckValueCalculating(userHand, userCounter) > 21)
+                                dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, count, dealerCounter, out count, out dealerCounter);
+                                if (Deck.DeckValueCalculating(userHand) > 21)
                                 {
                                     play = false;
                                     break;
@@ -238,7 +247,7 @@ namespace BlackJack
                             else
                             {
                                 Console.WriteLine("Dealer decides to stay.");
-                                if (Deck.DeckValueCalculating(userHand, userCounter) > 21)
+                                if (Deck.DeckValueCalculating(userHand) > 21)
                                 {
                                     play = false;
                                     break;
@@ -246,8 +255,8 @@ namespace BlackJack
                             }
                             Console.WriteLine($"Dealer have {dealerCounter} cards.");
                             Console.WriteLine("You have next cards:");
-                            Deck.PrintDeck(userHand,userCounter);
-                            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand, userCounter)}");
+                            Deck.PrintDeck(userHand);
+                            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
                             Console.WriteLine();
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
@@ -257,10 +266,10 @@ namespace BlackJack
                             {
                                 Console.Clear();
                                 Console.WriteLine("You decide to stay.");
-                                if (Deck.DeckValueCalculating(dealerHand, dealerCounter) <= 17)
+                                if (Deck.DeckValueCalculating(dealerHand) <= 17)
                                 {
                                     Console.WriteLine("Dealer takes one more card.");
-                                    dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, ref count, ref dealerCounter);
+                                    dealerHand = OneMoreCardToDealer(playingDeck, dealerHand, count, dealerCounter, out count, out dealerCounter);
                                 }
                                 else
                                 {
@@ -272,8 +281,8 @@ namespace BlackJack
                             while (play);
                             Console.WriteLine($"Dealer have {dealerCounter} cards.");
                             Console.WriteLine("You have next cards:");
-                            Deck.PrintDeck(userHand,userCounter);
-                            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand, userCounter)}");
+                            Deck.PrintDeck(userHand);
+                            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
                             Console.WriteLine();
                             Console.WriteLine("Press any key to continue...");
                             Console.ReadKey();
@@ -286,7 +295,7 @@ namespace BlackJack
             }
             while (play);
         }
-        public static void GameResults( int userWinCounter, int dealerWinCounter,out bool game )
+        public static void GameResults(int userWinCounter, int dealerWinCounter, out bool game)
         {
             Console.WriteLine();
             Console.WriteLine($"For current session:");
@@ -338,44 +347,45 @@ namespace BlackJack
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
                     Deck.Shuffle(playingDeck);
-                    dealerHand = DealHandToDealer(playingDeck, ref count, ref dealerCounter);
+                    dealerHand = DealHandToDealer(playingDeck, count, dealerCounter, out count, out dealerCounter);
                     Console.WriteLine($"Dealer takes {dealerCounter} cards.");
-                    userHand = DealHandToUser(playingDeck, ref count, ref userCounter);
+                    userHand = DealHandToUser(playingDeck, count, userCounter, out count, out userCounter);
                     Console.WriteLine($"User takes {userCounter} cards");
                     Console.WriteLine();
                     Console.WriteLine("You have next cards:");
-                    Deck.PrintDeck(userHand,userCounter);
-                    Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand, userCounter)}");
+                    Deck.PrintDeck(userHand);
+                    Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
-                    if (!CheckAces(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter, dealerCounter, userCounter))
+                    if (!CheckAces(dealerHand, userHand, userWinCounter, dealerWinCounter, out userWinCounter, out dealerWinCounter))
                     {
-                        ChooseAnOptionIfDealerFirst(playingDeck, ref dealerHand, ref userHand, ref count, ref dealerCounter, ref userCounter);
-                        CalculatingPoints(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter, dealerCounter, userCounter);
+                        ChooseAnOptionIfDealerFirst(playingDeck, dealerHand, userHand, count, dealerCounter, userCounter);
+                        CalculatingPoints(dealerHand, userHand, userWinCounter, dealerWinCounter, out userWinCounter, out dealerWinCounter);
                     }
                     GameResults(userWinCounter, dealerWinCounter, out game);
                     continue;
-                }else if (decision == "2")
+                }
+                else if (decision == "2")
                 {
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
                     Deck.Shuffle(playingDeck);
-                    userHand = DealHandToUser(playingDeck, ref count, ref userCounter);
+                    userHand = DealHandToUser(playingDeck, count, userCounter, out count, out userCounter);
                     Console.WriteLine($"User takes {userCounter} cards");
-                    dealerHand = DealHandToDealer(playingDeck, ref count, ref dealerCounter);
+                    dealerHand = DealHandToDealer(playingDeck, count, dealerCounter, out count, out dealerCounter);
                     Console.WriteLine($"Dealer takes {dealerCounter} cards.");
                     Console.WriteLine();
                     Console.WriteLine("You have next cards:");
-                    Deck.PrintDeck(userHand, userCounter);
-                    Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand, userCounter)}");
+                    Deck.PrintDeck(userHand);
+                    Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
-                    if (!CheckAces(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter, dealerCounter, userCounter))
+                    if (!CheckAces(dealerHand, userHand, userWinCounter, dealerWinCounter, out userWinCounter, out dealerWinCounter))
                     {
-                        ChooseAnOptionIfUserFirst(playingDeck, ref dealerHand, ref userHand, ref count, ref userCounter, ref dealerCounter);
-                        CalculatingPoints(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter, dealerCounter, userCounter);
+                        ChooseAnOptionIfUserFirst(playingDeck, dealerHand, userHand, count, userCounter, dealerCounter);
+                        CalculatingPoints(dealerHand, userHand, userWinCounter, dealerWinCounter, out userWinCounter, out dealerWinCounter);
                     }
-                    GameResults( userWinCounter, dealerWinCounter, out game);
+                    GameResults(userWinCounter, dealerWinCounter, out game);
                     continue;
                 }
                 else
@@ -384,88 +394,6 @@ namespace BlackJack
                     Console.WriteLine();
                     continue;
                 }
-                //if (char.TryParse(Console.ReadLine(), out char dec))
-                //{
-                //    char decision;
-                //    decision = dec;
-                //    switch (decision)
-                //    {
-                //        case '1':
-                //            Console.Clear();
-                //            Console.WriteLine("Shuffling deck...");
-                //            Deck.Shuffle(playingDeck);
-                //            dealerHand = DealHandToDealer(playingDeck, ref count, ref dealerCounter);
-                //            Console.WriteLine($"Dealer takes {dealerCounter} cards.");
-                //            userHand = DealHandToUser(playingDeck, ref count, ref userCounter);
-                //            Console.WriteLine($"User takes {userCounter} cards");
-                //            Console.WriteLine();
-                //            Console.WriteLine("You have next cards:");
-                //            Deck.PrintDeck(userHand);
-                //            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
-                //            Console.WriteLine("Press any key to continue...");
-                //            Console.ReadKey();
-                //            if (!CheckAces(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter))
-                //            {
-                //                ChooseAnOptionIfDealerFirst(playingDeck, ref dealerHand, ref userHand, ref count, ref dealerCounter, ref userCounter);
-                //                CalculatingPoints(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter);
-                //            }
-                //            break;
-                //        case '2':
-                //            Console.Clear();
-                //            Console.WriteLine("Shuffling deck...");
-                //            Deck.Shuffle(playingDeck);
-                //            userHand = DealHandToUser(playingDeck, ref count, ref userCounter);
-                //            Console.WriteLine($"User takes {userCounter} cards");
-                //            dealerHand = DealHandToDealer(playingDeck, ref count, ref dealerCounter);
-                //            Console.WriteLine($"Dealer takes {dealerCounter} cards.");
-                //            Console.WriteLine();
-                //            Console.WriteLine("You have next cards:");
-                //            Deck.PrintDeck(userHand);
-                //            Console.WriteLine($"Value of your hand: {Deck.DeckValueCalculating(userHand)}");
-                //            Console.WriteLine("Press any key to continue...");
-                //            Console.ReadKey();
-                //            if (!CheckAces(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter))
-                //            {
-                //                ChooseAnOptionIfUserFirst(playingDeck, ref dealerHand, ref userHand, ref count, ref userCounter, ref dealerCounter);
-                //                CalculatingPoints(dealerHand, userHand, ref userWinCounter, ref dealerWinCounter);
-                //            }
-                //            break;
-                //        default:
-                //            Console.WriteLine("Incorrect Input!");
-                //            Console.WriteLine();
-                //            continue;
-                //    }
-                //}
-                //else
-                //{
-                //    Console.WriteLine("Incorrect Input!");
-                //    Console.WriteLine();
-                //    continue;
-                //}
-                //Console.WriteLine();
-                //Console.WriteLine($"For current session:");
-                //Console.WriteLine($"Your wins: {userWinCounter}");
-                //Console.WriteLine($"Dealer wins: {dealerWinCounter}");
-                //bool exit = false;
-                //while (!exit)
-                //{
-                //    Console.WriteLine("If you want to exit type 'No', to play more type 'Yes'");
-                //    string str = Console.ReadLine();
-                //    if (str == "Yes" || str == "yes")
-                //    {
-                //        exit = true;
-                //        continue;
-                //    }
-                //    else if (str == "No" || str == "no")
-                //    {
-                //        game = false;
-                //        exit = true;
-                //    }
-                //    else
-                //    {
-                //        Console.WriteLine("Wrong Input!");
-                //    }
-                //}
             }
         }
     }
