@@ -14,5 +14,4 @@ namespace BlackJack
 
         public int Value;
     }
-
 }

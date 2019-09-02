@@ -13,6 +13,7 @@ namespace BlackJack
         Spade,
         Club
     }
+
     public enum Face
     {
         Six,
