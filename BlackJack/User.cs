@@ -11,19 +11,17 @@ namespace BlackJack
         public Card[] userHand;
         public int userCounter;
 
-        public User(Card[] playingDeck, ref int count)
+        public User(Card[] playingDeck, int count)
         {
             userHand = new Card[36];
             userCounter = 0;
-            userHand[userCounter] = Game.DrawACard(playingDeck, ref count);
-            userCounter++;
-            userHand[userCounter] = Game.DrawACard(playingDeck, ref count);
-            userCounter++;
+            userHand = OneMoreCardToUser(playingDeck, count--);
+            userHand = OneMoreCardToUser(playingDeck, count--);
         }
 
-        public Card[] OneMoreCardToUser(Card[] playingDeck, ref int count)
+        public Card[] OneMoreCardToUser(Card[] playingDeck, int count)
         {
-            userHand[userCounter] = Game.DrawACard(playingDeck, ref count);
+            userHand[userCounter] = Game.DrawACard(playingDeck, count--);
             userCounter++;
             return userHand;
         }

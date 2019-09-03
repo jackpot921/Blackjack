@@ -26,9 +26,9 @@ namespace BlackJack
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
                     Deck.Shuffle(game.playingDeck);
-                    Dealer dealer = new Dealer(game.playingDeck, ref game.count);
+                    Dealer dealer = new Dealer(game.playingDeck, --game.cardIndex);
                     Console.WriteLine($"Dealer takes {dealer.dealerCounter} cards.");
-                    User user = new User(game.playingDeck, ref game.count);
+                    User user = new User(game.playingDeck, --game.cardIndex);
                     Console.WriteLine($"User takes {user.userCounter} cards");
                     Console.WriteLine();
                     Console.WriteLine("You have next cards:");
@@ -41,7 +41,7 @@ namespace BlackJack
                         game.ChooseAnOptionIfDealerFirst(dealer, user);
                         game.CalculatingPoints(dealer, user);
                     }
-                    game.GameResults(out play);
+                    play = game.GameResults();
                     continue;
                 }
                 else if (decision == "2")
@@ -49,9 +49,9 @@ namespace BlackJack
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
                     Deck.Shuffle(game.playingDeck);
-                    User user = new User(game.playingDeck, ref game.count);
+                    User user = new User(game.playingDeck, --game.cardIndex);
                     Console.WriteLine($"User takes {user.userCounter} cards");
-                    Dealer dealer = new Dealer(game.playingDeck, ref game.count);
+                    Dealer dealer = new Dealer(game.playingDeck, --game.cardIndex);
                     Console.WriteLine($"Dealer takes {dealer.dealerCounter} cards.");
                     Console.WriteLine();
                     Console.WriteLine("You have next cards:");
@@ -64,7 +64,7 @@ namespace BlackJack
                         game.ChooseAnOptionIfUserFirst(dealer, user);
                         game.CalculatingPoints(dealer, user);
                     }
-                    game.GameResults(out play);
+                    play = game.GameResults();
                     continue;
                 }
                 else
