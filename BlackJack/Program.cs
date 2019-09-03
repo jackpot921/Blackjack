@@ -42,7 +42,6 @@ namespace BlackJack
                         game.CalculatingPoints(dealer, user);
                     }
                     play = game.GameResults();
-                    continue;
                 }
                 else if (decision == "2")
                 {
@@ -65,13 +64,11 @@ namespace BlackJack
                         game.CalculatingPoints(dealer, user);
                     }
                     play = game.GameResults();
-                    continue;
                 }
                 else
                 {
                     Console.WriteLine("Incorrect Input!");
                     Console.WriteLine();
-                    continue;
                 }
             }
         }
