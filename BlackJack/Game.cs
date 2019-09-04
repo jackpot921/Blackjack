@@ -28,10 +28,6 @@ namespace BlackJack
                         playingDeck[cardIndex].Value = (int)playingDeck[cardIndex].Face;
                         cardIndex++;
                     }
-                    else
-                    {
-                        continue;
-                    }
                 }
             }
         }
