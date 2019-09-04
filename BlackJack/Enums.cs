@@ -16,14 +16,14 @@ namespace BlackJack
 
     public enum Face
     {
-        Six,
+        Jack = 2,
+        Queen,
+        King,
+        Six = 6,
         Seven,
         Eight,
         Nine,
         Ten,
-        Jack,
-        Queen,
-        King,
         Ace
     }
 }

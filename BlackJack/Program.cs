@@ -26,9 +26,9 @@ namespace BlackJack
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
                     Deck.Shuffle(game.playingDeck);
-                    Dealer dealer = new Dealer(game.playingDeck, --game.cardIndex);
+                    Dealer dealer = new Dealer(game.playingDeck, --Game.cardIndex);
                     Console.WriteLine($"Dealer takes {dealer.dealerCounter} cards.");
-                    User user = new User(game.playingDeck, --game.cardIndex);
+                    User user = new User(game.playingDeck, --Game.cardIndex);
                     Console.WriteLine($"User takes {user.userCounter} cards");
                     Console.WriteLine();
                     Console.WriteLine("You have next cards:");
@@ -48,9 +48,9 @@ namespace BlackJack
                     Console.Clear();
                     Console.WriteLine("Shuffling deck...");
                     Deck.Shuffle(game.playingDeck);
-                    User user = new User(game.playingDeck, --game.cardIndex);
+                    User user = new User(game.playingDeck, --Game.cardIndex);
                     Console.WriteLine($"User takes {user.userCounter} cards");
-                    Dealer dealer = new Dealer(game.playingDeck, --game.cardIndex);
+                    Dealer dealer = new Dealer(game.playingDeck, --Game.cardIndex);
                     Console.WriteLine($"Dealer takes {dealer.dealerCounter} cards.");
                     Console.WriteLine();
                     Console.WriteLine("You have next cards:");

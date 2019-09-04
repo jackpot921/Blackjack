@@ -9,7 +9,7 @@ namespace BlackJack
     public struct Game
     {
         public Card[] playingDeck;
-        public int cardIndex;
+        public static int cardIndex;
         public int dealerWinCounter;
         public int userWinCounter;
 
@@ -20,31 +20,20 @@ namespace BlackJack
 
             for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 9; j++)
+                for (int j = 2; j <= 11; j++)
                 {
-                    playingDeck[cardIndex] = (new Card() { Suit = (Suit)i, Face = (Face)j });
-                    if (j <= 4)
+                    if (j != 5)
                     {
-                        playingDeck[cardIndex].Value = j + 6;
-                        cardIndex++;
-                    }
-                    else if (j >= 5 && j <= 7)
-                    {
-                        playingDeck[cardIndex].Value = j - 3;
+                        playingDeck[cardIndex] = (new Card() { Suit = (Suit)i, Face = (Face)j });
+                        playingDeck[cardIndex].Value = (int)playingDeck[cardIndex].Face;
                         cardIndex++;
                     }
                     else
                     {
-                        playingDeck[cardIndex].Value = 11;
-                        cardIndex++;
+                        continue;
                     }
                 }
             }
-        }
-
-        public static Card DrawACard(Card[] playingDeck, int count)
-        {
-            return playingDeck[count];
         }
 
         public void CalculatingPoints(Dealer dealer, User user)
@@ -301,18 +290,17 @@ namespace BlackJack
             Console.WriteLine($"For current session:");
             Console.WriteLine($"Your wins: {userWinCounter}");
             Console.WriteLine($"Dealer wins: {dealerWinCounter}");
-            bool exit = false;
-            while (!exit)
+            while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("If you want to exit type 'No', to play more type 'Yes'");
-                string str = Console.ReadLine();
-                if (str.ToLower() == "yes")
+                string decision = (Console.ReadLine().ToLower());
+                if (decision == "yes")
                 {
                     Console.Clear();
-                    exit = true;
-                    continue;
+                    return true;
                 }
-                else if (str.ToLower() == "no")
+                else if (decision == "no")
                 {
                     return false;
                 }
@@ -321,7 +309,6 @@ namespace BlackJack
                     Console.WriteLine("Wrong Input!");
                 }
             }
-            return true;
         }
     }
 }

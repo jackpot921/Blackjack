@@ -15,13 +15,14 @@ namespace BlackJack
         {
             dealerHand = new Card[36];
             dealerCounter = 0;
+            dealerHand = OneMoreCardToDealer(playingDeck, count);
             dealerHand = OneMoreCardToDealer(playingDeck, --count);
-            dealerHand = OneMoreCardToDealer(playingDeck, --count);
+            Game.cardIndex = count;
         }
 
         public Card[] OneMoreCardToDealer(Card[] playingDeck, int count)
         {
-            dealerHand[dealerCounter] = Game.DrawACard(playingDeck, --count);
+            dealerHand[dealerCounter] = playingDeck[count];
             dealerCounter++;
             return dealerHand;
         }
